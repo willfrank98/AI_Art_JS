@@ -4,27 +4,33 @@
 <body>
     <form>
         File In: <br>
-        <input type="file" id="fileIn"><br>
-        <br>
+        <input type="url" id="fileIn"><br>
+        <button type="button" id="loadButton">Load Image</button><br>
         Type: <br>
         <select id="type">
             <option value="triangle">Triangle</option>
         </select><br>
 
         Number to Generate:<br>
-        <input type="number" id="numGen"><br>
+        <input type="number" id="numGen" value="100"><br>
         Number to Draw:<br>
-        <input type="number" id="numDraw"><br>
+        <input type="number" id="numDraw" value="100"><br>
         Granularity:<br>
-        <input type="number" id="granularity"><br>
+        <input type="number" id="granularity" value="2"><br>
         Minimum Side Length:<br>
-        <input type="number" id="minLength"><br>
+        <input type="number" id="minLength" value="30"><br>
         Maximum Side Length:<br>
-        <input type="number" id="maxLength"><br>
+        <input type="number" id="maxLength" value="50"><br>
         <br>
         <button type="button" id="generateButton">Generate</button>
     </form>
+
+    <canvas id="srcImage"></canvas>
+    <canvas id="outImage"></canvas>
     
+    <script src="point.js"></script>
+    <script src="triangle.js"></script>
+    <script src="imageRepresentation.js"></script>
     <script src="main.js"></script>
 </body>
 
