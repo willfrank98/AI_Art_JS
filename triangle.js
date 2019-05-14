@@ -104,7 +104,7 @@ class Triangle {
         return returnList;
     }
 
-    getColorAtPoint(p) {
+    getColor() {
         return this.brush;
     }
 
