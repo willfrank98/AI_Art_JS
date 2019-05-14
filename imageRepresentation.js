@@ -1,6 +1,4 @@
 class ImageRepresentation {
-    // height = -1;
-    // width = -1;
     image = null;
     shapes = null
     fitness = null
@@ -10,11 +8,9 @@ class ImageRepresentation {
         let ctx = canvas.getContext("2d");
         let img = new Image();
         img.onload = function () {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0, img.width, img.height);
-            // this.width = img.width;
-            // this.height = img.height;
+            canvas.width = img.width / image.height * 800;//img.width;
+            canvas.height = 800;//img.height;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
         img.src = filepath + "?" + new Date().getTime();
         img.crossOrigin = ""
@@ -22,15 +18,6 @@ class ImageRepresentation {
     }
 
     async newBatch(numGen, type, minLength, maxLength) {
-        //wait for image to load
-        // function sleep(ms) {
-        //     return new Promise(resolve => setTimeout(resolve, ms));
-        // }
-        // while (this.image. == -1 || this.width == -1) {
-        //     console.log("loading image...")
-        //     await sleep(500)
-        // }
-
         let shapes = [];
         // let onePercent = num / 100;
 
@@ -118,6 +105,8 @@ class ImageRepresentation {
 
         let onePercent = this.shapes.length / 100;
         let len = this.shapes.length;
+        let imageData = this.image.getContext('2d').getImageData(0, 0, this.image.width, this.image.height);
+
         for (let i = 0; i < len; i++) {
             fitness[i] = 0;
             let pixels = 0;
@@ -125,7 +114,8 @@ class ImageRepresentation {
             let pointsLen = points.length;
             for (let j = 0; j < pointsLen; j++) {
                 if (points[j].X >= 0 && points[j].X < this.image.width && points[j].Y >= 0 && points[j].Y < this.image.height) {
-                    let pixelData = this.image.getContext('2d').getImageData(points[j].X, points[j].Y, 1, 1).data;
+                    let startPoint = (points[j].X + points[j].Y * this.image.width) * 4;
+                    let pixelData = imageData.data.slice(startPoint, startPoint + 4);
                     let color = this.shapes[i].getColorAtPoint(points[j]);
 
                     let c1 = [pixelData[0] / 255.0, pixelData[1] / 255.0, pixelData[2] / 255.0];
@@ -153,9 +143,7 @@ class ImageRepresentation {
             if (i % onePercent == 0)
             {
                 let percent = i / this.shapes.length * 100;
-                // Console.SetCursorPosition(0, 1);
-                // Console.WriteLine("Evaluating: {0:0}%", percent);
-                console.log("Evaluating: " + percent + "% done")
+                console.log("Evaluating: " + Math.round(percent) + "% done")
             }
         }
 
